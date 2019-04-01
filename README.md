@@ -6,7 +6,7 @@
 ## 依赖
 
 * 支持AT指令的串口SIM卡设备
-* python3
+* python >= 3.6
 * pyserial
 * smspdudecoder
 

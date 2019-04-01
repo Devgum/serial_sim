@@ -69,7 +69,7 @@ class SIM:
             )
         return result[-1]
 
-    def listen_msg(self, callback=None):
+    def listen_msg(self, callback=None, del_after_call=False):
         try:
             while True:
                 recv = self.recieve(
@@ -80,23 +80,13 @@ class SIM:
                         msg_index = m.group(1)
                         msg = self.get_msg(msg_index)
                         if callable(callback):
-                            if callback(msg):
+                            if callback(msg) and del_after_call:
                                 self.del_msg(msg_index)
         except KeyboardInterrupt:
             pass
 
 
 if __name__ == '__main__':
-    # logger = logging.getLogger('sim')
-    # logger.setLevel(level=logging.INFO)
-    # handler = logging.FileHandler('sim.log', encoding='utf-8')
-    # handler.setLevel(logging.INFO)
-    # formatter = logging.Formatter(
-    #     '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    # handler.setFormatter(formatter)
-    # logger.addHandler(handler)
-
     with serial.Serial('/dev/ttyS0', baudrate=115200, timeout=10) as serial_obj:
         sim = SIM(serial_obj)
         print(sim.send('AT+CSQ'))
-        # sim.listen_msg(logger.info)

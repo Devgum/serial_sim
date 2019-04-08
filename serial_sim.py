@@ -43,7 +43,7 @@ class SIM:
         result = self.send(f'AT+CMGR={index}')
         for item in result:
             if self.is_pdu_like(item):
-                msg.append(easy_sms(item))
+                msg.append(str(easy_sms(item)))
         return '\n'.join(msg)
 
     def is_pdu_like(self, msg):

@@ -56,8 +56,12 @@ class SIM:
         result = self.send(f'AT+CMGD={index}')
         return result[-1] == 'OK'
 
-    def list_msg(self):
-        result = self.send(f'AT+CMGL=1')
+    def list_msg(self, just_unread=False):
+        if just_unread:
+            code = 0
+        else:
+            code = 4
+        result = self.send(f'AT+CMGL={code}')
         if not result:
             return ['No response']
         if result[-1] == 'OK':
